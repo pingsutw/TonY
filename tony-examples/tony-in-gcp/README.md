@@ -33,8 +33,8 @@ Get started on Google Cloud Platform (GCP) by creating a new project, using the 
 Then create a Cloud Storage bucket. Reference [here](https://cloud.google.com/storage/docs/creating-buckets#storage-create-bucket-gsutil).
 
 ```
-export BUCKET=<your bucket name>
-gsutil mb gs://tony-staging
+export BUCKET=submarine-kevin
+gsutil mb gs://${BUCKET}
 ```
 
 **Create a Hadoop cluster via Cloud Dataproc using initialization actions**
@@ -42,17 +42,19 @@ gsutil mb gs://tony-staging
 You can create your Hadoop cluster directly from Cloud Console or via an appropriate `gcloud` command. The following command initializes a cluster that consists of 1 master and 2 workers:
 
 ```
-export CLUSTER_NAME=<your cluster name>
+export CLUSTER_NAME=submarine-dev1
 export DATAPROC_VERSION=1.3-deb9
-export ZONE=us-west1-a
+export ZONE=asia-east1-a
 
-gcloud dataproc clusters create ${CLUSTER_NAME} --bucket ${BUCKET} \
+gcloud beta dataproc clusters create ${CLUSTER_NAME} --bucket ${BUCKET} \
 --subnet default \
 --zone $ZONE \
 --master-machine-type n1-standard-4 \
 --num-workers 2 --worker-machine-type n1-standard-4 \
 --image-version ${DATAPROC_VERSION} \
---initialization-actions gs://dataproc-initialization-actions/tony/tony.sh
+--initialization-actions gs://dataproc-initialization-actions/tony/tony.sh \
+--enable-component-gateway \
+--region aisa-east1
 ```
 
 When creating a Cloud Dataproc cluster, you can specify in your TonY [initialization actions](https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/init-actions) script that Cloud Dataproc should run on all nodes in your Cloud Dataproc cluster immediately after the cluster is set up. 
