@@ -42,7 +42,7 @@ gsutil mb gs://${BUCKET}
 You can create your Hadoop cluster directly from Cloud Console or via an appropriate `gcloud` command. The following command initializes a cluster that consists of 1 master and 2 workers:
 
 ```
-export CLUSTER_NAME=submarine-dev1
+export CLUSTER_NAME=submarine-dev
 export DATAPROC_VERSION=1.3-deb9
 export ZONE=asia-east1-a
 
@@ -54,7 +54,7 @@ gcloud beta dataproc clusters create ${CLUSTER_NAME} --bucket ${BUCKET} \
 --image-version ${DATAPROC_VERSION} \
 --initialization-actions gs://dataproc-initialization-actions/tony/tony.sh \
 --enable-component-gateway \
---region aisa-east1
+--region asi-east1
 ```
 
 When creating a Cloud Dataproc cluster, you can specify in your TonY [initialization actions](https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/init-actions) script that Cloud Dataproc should run on all nodes in your Cloud Dataproc cluster immediately after the cluster is set up. 
@@ -164,8 +164,8 @@ gcloud dataproc jobs submit hadoop --cluster "$CLUSTER_NAME" \
 --task_params='--data_dir /tmp/ --working_dir /tmp/' \
 --conf_file=/opt/tony/TonY-samples/jobs/TFJob/tony.xml \
 --executes mnist_distributed.py \
---python_venv=/opt/tony/TonY-samples/deps/tf.zip \
---python_binary_path=tf/bin/python3.5
+--python_venv=/opt/tony/TonY-samples/deps/env.zip \
+--python_binary_path=env/bin/python3
 ```
 ## Running a PyTorch distributed job
 
