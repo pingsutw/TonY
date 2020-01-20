@@ -78,7 +78,8 @@ function install_samples() {
 
   # Install TensorFlow sample
   cd "${TONY_SAMPLES_FOLDER}"/deps
-  virtualenv -p python3 tf
+  sudo apt-get install python3-venv
+  python3 -m venv tf
   source tf/bin/activate
   # Verify you install GPU drivers, CUDA and CUDNN compatible with TensorFlow.
   if [[ "${tf_gpu}" == 'true' ]]; then
@@ -163,7 +164,7 @@ EOF
 
   # Install PyTorch sample
   cd "${TONY_SAMPLES_FOLDER}"/deps
-  virtualenv -p python3 pytorch
+  python3 -m venv pytorch
   source pytorch/bin/activate
   pip install torch=="${torch_version}"
   pip install torchvision=="${torchvision_version}"
