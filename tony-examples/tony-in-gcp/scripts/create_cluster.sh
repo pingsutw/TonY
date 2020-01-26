@@ -16,10 +16,10 @@
 set -x -e
 
 # Cluster configuration
-readonly CLUSTER_NAME='tony-staging-1'
+readonly CLUSTER_NAME='submarine-dev'
 readonly DATAPROC_VERSION='1.3-deb9' # If using a more version of Dataproc verify Python version when executing job.
-readonly ZONE='us-central1-b'
-readonly BUCKET='tony-staging'
+readonly ZONE='asia-east1-b'
+readonly BUCKET='submarine-kevin'
 
 # Initialization actions
 readonly TONY_INITIALIZATION_ACTION='gs://tony-staging/initializations/tony_latest.sh'
@@ -54,7 +54,7 @@ workerConfig:
   weight: 50
 EOF
 	# Autoscaling policy creation
-	gcloud beta dataproc autoscaling-policies import "${AUTOSCALE_POLICY}" --source=autoscale_tony.yaml
+	gcloud beta dataproc autoscaling-policies import "${AUTOSCALE_POLICY}" --source=autoscale_tony.yaml --region asia-east1
 }
 
 
@@ -72,8 +72,10 @@ function create_cluster() {
 	--initialization-action-timeout 20m \
 	--scopes https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/monitoring.write \
 	--autoscaling-policy="${AUTOSCALE_POLICY}" \
-	--worker-accelerator type=nvidia-tesla-v100,count=1 \
+	--worker-accelerator type=nvidia-tesla-k80,count=1 \
 	--metadata "${METADATA}" \
+	--enable-component-gateway \
+	--region asia-east1 \
 	--properties "\
 capacity-scheduler:yarn.scheduler.capacity.resource-calculator=org.apache.hadoop.yarn.util.resource.DominantResourceCalculator,\
 yarn:yarn.log-aggregation-enable=true,\

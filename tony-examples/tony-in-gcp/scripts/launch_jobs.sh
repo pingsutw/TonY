@@ -14,9 +14,9 @@
 #
 # This script launches multiple TonY jobs on a master node within a Google Cloud Dataproc cluster.
 
-export CLUSTER_NAME="tony-staging-1"
-export BUCKET="tony-staging"
-export TONY_JARFILE="gs://${BUCKET}/tony-cli-0.3.1-all.jar"
+export CLUSTER_NAME="submarine-dev"
+export BUCKET="submarine-kevin"
+export TONY_JARFILE="gs://${BUCKET}/tony-cli-0.3.24-all.jar"
 export TONY_CLASS="com.linkedin.tony.cli.ClusterSubmitter"
 export LC_CTYPE=C
 
@@ -52,9 +52,9 @@ function execute_tensorflow() {
     --class com.linkedin.tony.cli.ClusterSubmitter \
     --jars "${TONY_JARFILE}" -- \
     --python_venv=/opt/tony/TonY-samples/deps/tf.zip \
-    --python_binary_path=tf/bin/python3.5 \
+    --python_binary_path=tf/bin/python3 \
     --executes mnist_distributed.py \
-    --task_params="--steps "${steps}" --data_dir gs://tony-staging/tensorflow/data --working_dir gs://tony-staging/tensorflow/jobs/"${job_id}"/model" \
+    --task_params="--steps "${steps}" --data_dir gs://tony-staging/tensorflow/data --working_dir gs://submarine-kevin/tensorflow/jobs/"${job_id}"/model" \
     --src_dir=/opt/tony/TonY-samples/jobs/TFJob/src \
     --conf_file=/opt/tony/TonY-samples/jobs/TFJob/tony.xml &
     sleep 2
